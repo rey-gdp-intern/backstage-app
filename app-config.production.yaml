@@ -44,7 +44,9 @@ auth:
             - resolver: usernameMatchingUserEntityName
 
 catalog:
-  # Overrides the default list locations from app-config.yaml as these contain example data.
-  # See https://backstage.io/docs/features/software-catalog/#adding-components-to-the-catalog for more details
-  # on how to get entities into the catalog.
-  locations: []
+  locations:
+    # All of data
+    - type: url
+      target: https://github.com/rey-gdp-intern/backstage-catalog/blob/main/all.yaml
+      rules:
+        - allow: [Component, API, Location, Template, User, Group, Location]

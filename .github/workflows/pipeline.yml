@@ -52,20 +52,6 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Create secret
-        run: |
-          echo '${{ vars.ENV }}' > ./files/secrets/secrets.config.json
-
-      - name: Add Config
-        run: |
-          jq --arg be_mode "${{ vars.CONFIG_BE_MODE }}" --arg infra_mode "${{ vars.CONFIG_INFRA_MODE }}" \
-          '. + {"be_mode": $be_mode, "infra_mode": $infra_mode}' ./files/secrets/secrets.config.json > ./files/secrets/secrets.tmp.json \
-          && mv ./files/secrets/secrets.tmp.json ./files/secrets/secrets.config.json
-
-      - name: Test secret
-        run: |
-          cat ./files/secrets/secrets.config.json
-
       - name: Build and push Docker Image
         env: 
           IMAGE_NAME: ${{ needs.setup-environment.outputs.IMAGE_NAME }}
@@ -74,35 +60,35 @@ jobs:
           docker push $IMAGE_NAME
           echo "IMAGE_NAME=$IMAGE_NAME" >> $GITHUB_OUTPUT
 
-  deploy-to-server-gcp:
-    needs: [setup-environment, dockerize-and-push]
-    if: vars.CLOUD_PLATFORM == 'gcp'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout the repo
-        uses: actions/checkout@v2
+  # deploy-to-server-gcp:
+  #   needs: [setup-environment, dockerize-and-push]
+  #   if: vars.CLOUD_PLATFORM == 'gcp'
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout the repo
+  #       uses: actions/checkout@v2
 
-      - name: Prepare deployment file
-        env: 
-          IMAGE_NAME: ${{ needs.setup-environment.outputs.IMAGE_NAME }}
-          SHORT_SHA: ${{ needs.setup-environment.outputs.SHORT_SHA }}
-        run: |
-          sed -i "s|<IMAGE_NAME>|${{ env.IMAGE_NAME }}|g" k8s/service/2-app.yml
-          sed -i "s|<VERSION>|${{ env.SHORT_SHA }}|g" k8s/service/2-app.yml
-          sed -i "s|<PORT>|${{ env.PORT }}|g" k8s/service/2-app.yml
-          cat k8s/service/2-app.yml
+  #     - name: Prepare deployment file
+  #       env: 
+  #         IMAGE_NAME: ${{ needs.setup-environment.outputs.IMAGE_NAME }}
+  #         SHORT_SHA: ${{ needs.setup-environment.outputs.SHORT_SHA }}
+  #       run: |
+  #         sed -i "s|<IMAGE_NAME>|${{ env.IMAGE_NAME }}|g" k8s/service/2-app.yml
+  #         sed -i "s|<VERSION>|${{ env.SHORT_SHA }}|g" k8s/service/2-app.yml
+  #         sed -i "s|<PORT>|${{ env.PORT }}|g" k8s/service/2-app.yml
+  #         cat k8s/service/2-app.yml
 
-      - id: auth
-        uses: google-github-actions/auth@v2
-        with:
-          credentials_json: ${{ vars.GCP_SA_KEY }}
+  #     - id: auth
+  #       uses: google-github-actions/auth@v2
+  #       with:
+  #         credentials_json: ${{ vars.GCP_SA_KEY }}
 
-      - name: Connect to cluster
-        uses: google-github-actions/get-gke-credentials@v2
-        with:
-          cluster_name: ${{ vars.GCP_CLUSTER_NAME }}
-          location: ${{ env.GCP_ZONE }}
+  #     - name: Connect to cluster
+  #       uses: google-github-actions/get-gke-credentials@v2
+  #       with:
+  #         cluster_name: ${{ vars.GCP_CLUSTER_NAME }}
+  #         location: ${{ env.GCP_ZONE }}
 
-      - name: Deploy
-        run: |
-          kubectl apply -f k8s/service/2-app.yml
+  #     - name: Deploy
+  #       run: |
+  #         kubectl apply -f k8s/service/2-app.yml

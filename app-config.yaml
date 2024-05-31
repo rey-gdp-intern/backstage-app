@@ -81,42 +81,57 @@ auth:
             # Matches the GitHub username with the Backstage user entity name.
             # See https://backstage.io/docs/auth/github/provider#resolvers for more resolvers.
             - resolver: usernameMatchingUserEntityName
+    
+    gcp-iap:
+      audience: '/projects/<project number>/global/backendServices/<backend service id>'
+      jwtHeader: x-custom-header # Optional: Only if you are using a custom header for the IAP JWT
+      signIn:
+        resolvers:
+          # typically you would pick one of these
+          - resolver: emailMatchingUserEntityProfileEmail
+          - resolver: emailLocalPartMatchingUserEntityName
+          - resolver: emailMatchingUserEntityAnnotation
             
-      
 scaffolder:
   defaultAuthor:
     name: Backstage
     email: reyshazni@gmail.com
   defaultCommitMessage: "init from backstage"
-  
 
 catalog:
-  import:
-    entityFilename: catalog-info.yaml
-    pullRequestBranchName: backstage-integration
-  rules:
-    - allow: [Component, System, API, Resource, Location]
   locations:
-    # Local example data, file locations are relative to the backend process, typically `packages/backend`
-    - type: file
-      target: ../../examples/entities.yaml
-
-    # Local example template
-    - type: file
-      target: ../../examples/template/template.yaml
-      rules:
-        - allow: [Template]
-
-    # Local example organizational data
-    - type: file
-      target: ../../examples/org.yaml
-      rules:
-        - allow: [User, Group]
-
     # All of data
     - type: url
       target: https://github.com/rey-gdp-intern/backstage-catalog/blob/main/all.yaml
+      rules:
+        - allow: [Component, API, Location, Template, User, Group, Location]
+
+    - type: url
+      target: https://github.com/rey-gdp-intern/backstage-catalog/blob/main/acme/group/sre.yaml
+      rules:
+        - allow: [User, Group]
+
+    - type: url
+      target: https://github.com/rey-gdp-intern/backstage-catalog/blob/main/templates/golang/template.yaml
+      rules:
+        - allow: [Template]
   
+    # Local example data, file locations are relative to the backend process, typically `packages/backend`
+    # - type: file
+    #   target: ../../examples/entities.yaml
+
+    # # Local example template
+    # - type: file
+    #   target: ../../examples/template/template.yaml
+    #   rules:
+    #     - allow: [Template]
+
+    # Local example organizational data
+    # - type: file
+    #   target: ../../examples/org.yaml
+    #   rules:
+    #     - allow: [User, Group]
+
     # # Uncomment these lines to add more example data
     # - type: url
     #   target: https://github.com/backstage/backstage/blob/master/packages/catalog-model/examples/all.yaml
