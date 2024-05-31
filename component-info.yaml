@@ -1,0 +1,10 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: backstage
+  description: Backstage application.
+  annotations:
+    google.com/cloudbuild-project-slug: 	antrein-ta
+spec:
+  type: website
+  lifecycle: development

@@ -1,0 +1,35 @@
+---
+# https://backstage.io/docs/features/software-catalog/descriptor-format#kind-user
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: guest
+spec:
+  memberOf: [guests]
+---
+# https://backstage.io/docs/features/software-catalog/descriptor-format#kind-group
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: guests
+spec:
+  type: team
+  children: []
+---
+# apiVersion: backstage.io/v1alpha1
+# kind: User
+# metadata:
+#   name: reyshazni
+#   description: "GitHub user reyshazni"
+# spec:
+#   profile:
+#     displayName: "Reyshazni"
+#     email: "reyshazni@gmail.com"
+#     picture: "https://github.com/reyshazni.png"
+#   memberOf:
+#     - team-a 
+#   links:
+#     - url: "https://github.com/reyshazni"
+#       title: "GitHub Profile"
+#       icon: "github"
+
