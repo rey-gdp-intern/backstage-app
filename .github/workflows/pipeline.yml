@@ -52,14 +52,10 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Create config
-        run: |
-          echo '${{ vars.APP_CONFIG }}' > ./app-config.yaml
-          echo '${{ vars.APP_CONFIG_PRODUCTION }}' > ./app-config.production.yaml
-
-      - name: Test secret
-        run: |
-          cat ./files/secrets/secrets.config.json
+      # - name: Create config
+      #   run: |
+      #     echo '${{ vars.APP_CONFIG }}' > ./app-config.yaml
+      #     echo '${{ vars.APP_CONFIG_PRODUCTION }}' > ./app-config.production.yaml
 
       - name: Build and push Docker Image
         env: 
