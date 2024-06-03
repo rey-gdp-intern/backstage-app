@@ -4,7 +4,7 @@ kind: Deployment
 metadata:
   name: backstage
   namespace: backstage
-  version: <VERSION>
+  version: "<VERSION>"
 spec:
   replicas: 1
   selector:
@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: backstage
-          image: reyshazni/backstage-app:e7d15d8
+          image: <IMAGE_NAME>
           imagePullPolicy: IfNotPresent
           ports:
             - name: http
@@ -45,7 +45,7 @@ kind: Service
 metadata:
   name: backstage
   namespace: backstage
-  version: <VERSION>
+  version: "<VERSION>"
 spec:
   type: LoadBalancer
   selector:
