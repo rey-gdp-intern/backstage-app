@@ -4,7 +4,7 @@ kind: Deployment
 metadata:
   name: backstage
   namespace: backstage
-  version: "<VERSION>"
+  commit-hash: "<VERSION>"
 spec:
   replicas: 1
   selector:
@@ -45,7 +45,7 @@ kind: Service
 metadata:
   name: backstage
   namespace: backstage
-  version: "<VERSION>"
+  commit-hash: "<VERSION>"
 spec:
   type: LoadBalancer
   selector:
