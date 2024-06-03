@@ -15,10 +15,8 @@ env:
   PROJECT_NAME: ${{ github.event.repository.name }}
   PORT: 7007
 
-  GCP_REGION: asia-southeast1
-  GCP_ZONE: asia-southeast1-a
-
-  AWS_REGION: asia-southeast-1
+  GCP_REGION: asia-southeast2
+  GCP_ZONE: asia-southeast2-a
 
 jobs:
   setup-environment:
