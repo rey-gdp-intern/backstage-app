@@ -2150,6 +2150,26 @@
     qs "^6.9.4"
     react-use "^17.2.4"
 
+"@backstage-community/plugin-github-actions@^0.6.16":
+  version "0.6.16"
+  resolved "https://registry.yarnpkg.com/@backstage-community/plugin-github-actions/-/plugin-github-actions-0.6.16.tgz#03462f8e4fb2f3cca32ecd163e3c7c6f6d4a4e84"
+  integrity sha512-rgtsw+SzFPwJLNVra4VDEsXtjq1RJeoyGty1zirDHhjbs+tLVb6sJC5e/gRPkh3VK/elSeFw1CJbDJXhaOJ7cA==
+  dependencies:
+    "@backstage/catalog-model" "^1.4.5"
+    "@backstage/core-components" "^0.14.4"
+    "@backstage/core-plugin-api" "^1.9.2"
+    "@backstage/integration" "^1.10.0"
+    "@backstage/integration-react" "^1.1.26"
+    "@backstage/plugin-catalog-react" "^1.11.3"
+    "@material-ui/core" "^4.12.2"
+    "@material-ui/icons" "^4.9.1"
+    "@material-ui/lab" "4.0.0-alpha.61"
+    "@octokit/rest" "^19.0.3"
+    "@types/react" "^16.13.1 || ^17.0.0 || ^18.0.0"
+    git-url-parse "^14.0.0"
+    luxon "^3.0.0"
+    react-use "^17.2.4"
+
 "@backstage/app-defaults@^1.5.5":
   version "1.5.5"
   resolved "https://registry.yarnpkg.com/@backstage/app-defaults/-/app-defaults-1.5.5.tgz#0a5e8e25c4941efc974a31fe0cb83d00e3c52325"
@@ -2657,7 +2677,7 @@
     "@backstage/config" "^1.2.0"
     "@backstage/errors" "^1.2.4"
 
-"@backstage/integration-react@^1.1.27":
+"@backstage/integration-react@^1.1.26", "@backstage/integration-react@^1.1.27":
   version "1.1.27"
   resolved "https://registry.yarnpkg.com/@backstage/integration-react/-/integration-react-1.1.27.tgz#df215f67e63d7c75e4e98c257b19d8e092836811"
   integrity sha512-F4NZoUeUtE0sHrEkZ1vye1tQVG3gc/xMng4c+9lCVEZjEjM5c9geZaL1vJNoVHRpFjknYlqeqBwFoP2iqnfV4w==
@@ -2669,7 +2689,7 @@
     "@material-ui/icons" "^4.9.1"
     "@types/react" "^16.13.1 || ^17.0.0"
 
-"@backstage/integration@^1.11.0":
+"@backstage/integration@^1.10.0", "@backstage/integration@^1.11.0":
   version "1.11.0"
   resolved "https://registry.yarnpkg.com/@backstage/integration/-/integration-1.11.0.tgz#0a04b6d3e15569c1074b7f39a7a3a17eefd1b89b"
   integrity sha512-RRci3a/uEmfYCCFxuw+8GgLPuWeCxt7iGOJYUZlyDEPfvUL+GSIdB2GQm4nzktRCUrNaJPd7QxaagmQgPCaIzg==
@@ -9930,6 +9950,7 @@ apg-lite@^1.0.3:
 "app@link:packages/app":
   version "0.0.0"
   dependencies:
+    "@backstage-community/plugin-cloudbuild" "^0.5.2"
     "@backstage/app-defaults" "^1.5.5"
     "@backstage/catalog-model" "^1.5.0"
     "@backstage/cli" "^0.26.5"

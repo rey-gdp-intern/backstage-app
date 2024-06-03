@@ -17,11 +17,11 @@ spec:
     spec:
       containers:
         - name: backstage
-          image: <IMAGE_NAME>
+          image: reyshazni/backstage-app:e7d15d8
           imagePullPolicy: IfNotPresent
           ports:
             - name: http
-              containerPort: <PORT>
+              containerPort: 7007
           envFrom:
             - secretRef:
                 name: postgres-secrets

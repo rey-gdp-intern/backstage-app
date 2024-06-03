@@ -52,6 +52,14 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
+      - name: Create secret
+        run: |
+          echo '${{ vars.ENV }}' > ./files/secrets/secrets.config.json
+
+      - name: Test secret
+        run: |
+          cat ./files/secrets/secrets.config.json
+
       - name: Build and push Docker Image
         env: 
           IMAGE_NAME: ${{ needs.setup-environment.outputs.IMAGE_NAME }}

@@ -57,6 +57,12 @@ import { ReportIssue } from '@backstage/plugin-techdocs-module-addons-contrib';
 // Cloud Build COmponent
 import { EntityCloudbuildContent, isCloudbuildAvailable } from '@backstage-community/plugin-cloudbuild';
 
+// Github Actions
+import {
+  EntityGithubActionsContent,
+  isGithubActionsAvailable,
+} from '@backstage-community/plugin-github-actions';
+
 const techdocsContent = (
   <EntityTechdocsContent>
     <TechDocsAddons>
@@ -154,6 +160,10 @@ const serviceEntityPage = (
 
     <EntityLayout.Route path="/ci-cd" title="CI/CD">
       {cicdContent}
+    </EntityLayout.Route>
+
+    <EntityLayout.Route path="/github-actions" title="GitHub Actions">
+      <EntityGithubActionsContent />
     </EntityLayout.Route>
 
     <EntityLayout.Route path="/api" title="API">
