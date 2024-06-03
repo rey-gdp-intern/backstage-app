@@ -4,7 +4,6 @@ kind: Deployment
 metadata:
   name: backstage
   namespace: backstage
-  commit-hash: "<VERSION>"
 spec:
   replicas: 1
   selector:
@@ -14,6 +13,7 @@ spec:
     metadata:
       labels:
         app: backstage
+        commit-hash: "<VERSION>"
     spec:
       containers:
         - name: backstage
@@ -45,11 +45,11 @@ kind: Service
 metadata:
   name: backstage
   namespace: backstage
-  commit-hash: "<VERSION>"
 spec:
   type: LoadBalancer
   selector:
     app: backstage
+    commit-hash: "<VERSION>"
   ports:
     - name: http
       port: 80
