@@ -54,3 +54,5 @@ site
 e2e-test-report/
 
 app-config.*
+
+secrets/

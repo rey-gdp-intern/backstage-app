@@ -1,47 +1,82 @@
-/*
- * Hi!
- *
- * Note that this is an EXAMPLE Backstage backend. Please check the README.
- *
- * Happy hacking!
- */
-
 import { createBackend } from '@backstage/backend-defaults';
+import { GoogleAuth } from 'google-auth-library';
 
-const backend = createBackend();
+async function getAccessToken() {
+  const keyFile = 'secrets/gcp_sa.json'; // Hardcoded path to your service account key file
+  const auth = new GoogleAuth({
+    keyFile,
+    scopes: ['https://www.googleapis.com/auth/cloud-platform'],
+  });
 
-backend.add(import('@backstage/plugin-app-backend/alpha'));
-backend.add(import('@backstage/plugin-proxy-backend/alpha'));
-backend.add(import('@backstage/plugin-scaffolder-backend/alpha'));
-backend.add(import('@backstage/plugin-techdocs-backend/alpha'));
+  const client = await auth.getClient();
+  const tokenResponse = await client.getAccessToken();
 
-// auth plugin
-backend.add(import('@backstage/plugin-auth-backend'));
-// See https://backstage.io/docs/backend-system/building-backends/migrating#the-auth-plugin
-backend.add(import('@backstage/plugin-auth-backend-module-guest-provider'));
-// See https://backstage.io/docs/auth/guest/provider
-backend.add(import('@backstage/plugin-auth-backend-module-github-provider'));
+  if (!tokenResponse) {
+    throw new Error('Failed to obtain access token');
+  }
 
-// catalog plugin
-backend.add(import('@backstage/plugin-catalog-backend/alpha'));
-backend.add(
-  import('@backstage/plugin-catalog-backend-module-scaffolder-entity-model'),
-);
+  const accessToken = tokenResponse.token;
 
-// permission plugin
-backend.add(import('@backstage/plugin-permission-backend/alpha'));
-backend.add(
-  import('@backstage/plugin-permission-backend-module-allow-all-policy'),
-);
+  if (!accessToken) {
+    throw new Error('Access token is null or undefined');
+  }
 
-// search plugin
-backend.add(import('@backstage/plugin-search-backend/alpha'));
-backend.add(import('@backstage/plugin-search-backend-module-catalog/alpha'));
-backend.add(import('@backstage/plugin-search-backend-module-techdocs/alpha'));
+  return accessToken;
+}
 
+async function refreshAccessToken() {
+  try {
+    const gcpAccessToken = await getAccessToken();
+    process.env.GCP_ACCESS_TOKEN = gcpAccessToken;
 
-// github plugin
-backend.add(import('@backstage/plugin-catalog-backend-module-github/alpha'));
-backend.add(import('@backstage/plugin-scaffolder-backend-module-github'))
+    console.log('GCP_ACCESS_TOKEN:', gcpAccessToken); // Log the access token value
 
-backend.start();
+    // Set a timeout to refresh the token before it expires (e.g., every 50 minutes)
+    setTimeout(refreshAccessToken, 50 * 60 * 1000);
+  } catch (error) {
+    console.error('Failed to refresh access token:', error);
+    // Retry in a minute if there was an error
+    setTimeout(refreshAccessToken, 1 * 60 * 1000);
+  }
+}
+
+async function startBackend() {
+  const backend = createBackend();
+
+  backend.add(import('@backstage/plugin-app-backend/alpha'));
+  backend.add(import('@backstage/plugin-proxy-backend/alpha'));
+  backend.add(import('@backstage/plugin-scaffolder-backend/alpha'));
+  backend.add(import('@backstage/plugin-techdocs-backend/alpha'));
+
+  // auth plugin
+  backend.add(import('@backstage/plugin-auth-backend'));
+  backend.add(import('@backstage/plugin-auth-backend-module-guest-provider'));
+  backend.add(import('@backstage/plugin-auth-backend-module-github-provider'));
+
+  // catalog plugin
+  backend.add(import('@backstage/plugin-catalog-backend/alpha'));
+  backend.add(import('@backstage/plugin-catalog-backend-module-scaffolder-entity-model'));
+
+  // permission plugin
+  backend.add(import('@backstage/plugin-permission-backend/alpha'));
+  backend.add(import('@backstage/plugin-permission-backend-module-allow-all-policy'));
+
+  // search plugin
+  backend.add(import('@backstage/plugin-search-backend/alpha'));
+  backend.add(import('@backstage/plugin-search-backend-module-catalog/alpha'));
+  backend.add(import('@backstage/plugin-search-backend-module-techdocs/alpha'));
+
+  // github plugin
+  backend.add(import('@backstage/plugin-catalog-backend-module-github/alpha'));
+  backend.add(import('@backstage/plugin-scaffolder-backend-module-github'));
+
+  // http request actions plugin
+  backend.add(import('@roadiehq/scaffolder-backend-module-http-request/new-backend'));
+
+  // Initially refresh the token
+  await refreshAccessToken();
+
+  backend.start();
+}
+
+startBackend().catch(console.error);

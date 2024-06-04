@@ -40,9 +40,11 @@
     "@backstage/plugin-search-backend-module-techdocs": "^0.1.23",
     "@backstage/plugin-search-backend-node": "^1.2.22",
     "@backstage/plugin-techdocs-backend": "^1.10.5",
+    "@roadiehq/scaffolder-backend-module-http-request": "^4.3.2",
     "app": "link:../app",
     "better-sqlite3": "^9.0.0",
     "dockerode": "^3.3.1",
+    "google-auth-library": "^9.10.0",
     "node-gyp": "^9.0.0",
     "pg": "^8.11.3",
     "winston": "^3.2.1"

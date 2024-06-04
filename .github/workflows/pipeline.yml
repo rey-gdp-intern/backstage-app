@@ -54,6 +54,13 @@ jobs:
           echo "${{ vars.APP_CONFIG }}" > ./app-config.yaml
           echo "${{ vars.APP_CONFIG_PRODUCTION }}" > ./app-config.production.yaml
 
+      - name: Create secrets
+        run: |
+          cd packages/backend
+          mkdir secrets
+          cd secrets
+          echo "${{ vars.GCP_SA_KEY }}" > ./gcp_sa.json
+
       - name: Build and push Docker Image
         env: 
           IMAGE_NAME: ${{ needs.setup-environment.outputs.IMAGE_NAME }}
