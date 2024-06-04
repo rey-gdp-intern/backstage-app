@@ -87,6 +87,9 @@ COPY --from=build --chown=node:node /app/packages/backend/dist/bundle/ ./
 COPY --chown=node:node app-config.production.yaml ./
 COPY --chown=node:node app-config.yaml ./
 
+# Copy the service account key to the secrets directory
+COPY --chown=node:node packages/backend/secrets/gcp_sa.json /app/secrets/gcp_sa.json
+
 # This switches many Node.js dependencies to production mode
 ENV NODE_ENV production
 
