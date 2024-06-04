@@ -1,0 +1,37 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: antrein
+  namespace: backstage
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: "3M"
+    kubernetes.io/ingress.allow-http: "true"
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/backend-protocol: HTTP
+    cert-manager.io/cluster-issuer: letsencrypt
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      more_set_headers "Access-Control-Allow-Origin: $http_origin";
+      # add_header Access-Control-Allow-Origin $http_origin;
+      add_header Access-Control-Allow-Methods "PUT,POST, GET, OPTIONS, PATCH";
+      more_set_headers "Access-Control-Allow-Credentials: true";
+      more_set_headers "Access-Control-Expose-Headers: *";
+      add_header Access-Control-Allow-Headers "DNT,X-CustomHeader,X-LANG,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,X-Api-Key,X-Device-Id,Access-Control-Allow-Origin,econolab-uid-authorization,authorization,authorization-v2,api-key,base-url,method,path";    
+spec:
+  ingressClassName: nginx
+  tls:
+    - secretName: backstage-tls
+      hosts:
+        - backstage-intern.obrol.id
+        
+  rules:
+  - host: backstage-intern.obrol.id
+    http:
+      paths:
+      - backend:
+          service:
+            name: backstage
+            port:
+              number: 80
+        path: /
+        pathType: ImplementationSpecific

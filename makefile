@@ -18,4 +18,4 @@ drun:
 	docker run --platform=linux/amd64 -dp 7007:7007 reyshazni/backstage-amd
 
 pf:
-	kubectl port-forward -n backstage backstage-5f587868b9-fk2lw 7007
+	sudo kubectl port-forward -n backstage svc/backstage 80
