@@ -59,7 +59,7 @@ jobs:
           cd packages/backend
           mkdir secrets
           cd secrets
-          echo "${{ vars.GCP_SA_KEY }}" > ./gcp_sa.json
+          echo '${{ vars.GCP_SA_KEY }}' > ./gcp_sa.json
 
       - name: Build and push Docker Image
         env: 
