@@ -90,7 +90,7 @@ COPY --chown=node:node app-config.yaml ./
 # Copy the service account key to the secrets directory
 COPY --chown=node:node packages/backend/secrets/gcp_sa.json /app/secrets/gcp_sa.json
 
-# This switches many Node.js dependencies to production mode
+# This switches many Node.js dependencies to production mode.
 ENV NODE_ENV production
 
 CMD ["node", "packages/backend", "--config", "app-config.yaml", "--config", "app-config.production.yaml"]
