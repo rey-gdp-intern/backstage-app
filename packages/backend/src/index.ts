@@ -13,7 +13,10 @@ const scaffolderModuleCustomExtensions = createBackendModule({
       },
       async init({ scaffolder }) {
         const { createCloudBuildTriggerAction } = await import('./plugins/scaffolder/actions/cloudBuild');
+        const { createGithubBranchAction } = await import('./plugins/scaffolder/actions/githubBranch');
+        
         scaffolder.addActions(createCloudBuildTriggerAction());
+        scaffolder.addActions(createGithubBranchAction());
       },
     });
   },

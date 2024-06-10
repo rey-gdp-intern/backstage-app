@@ -4,7 +4,7 @@ import { JsonValue } from '@backstage/types';
 
 export const createCloudBuildTriggerAction = () => {
   return createTemplateAction({
-    id: 'custom:cloudBuildTrigger:create',
+    id: 'custom:gcp:cloudbuild:trigger:create',
     schema: {
       input: z.object({
         triggerName: z.string().describe('The name of the Cloud Build trigger'),
