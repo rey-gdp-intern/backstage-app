@@ -1,7 +1,7 @@
 import { createBackend } from '@backstage/backend-defaults';
 import { GoogleAuth } from 'google-auth-library';
 import { scaffolderActionsExtensionPoint } from '@backstage/plugin-scaffolder-node/alpha';
-import { createBackendModule } from '@backstage/backend-plugin-api';
+import { coreServices, createBackendModule } from '@backstage/backend-plugin-api';
 
 const scaffolderModuleCustomExtensions = createBackendModule({
   pluginId: 'scaffolder',
@@ -10,13 +10,18 @@ const scaffolderModuleCustomExtensions = createBackendModule({
     env.registerInit({
       deps: {
         scaffolder: scaffolderActionsExtensionPoint,
+        logger: coreServices.logger,
+        config: coreServices.rootConfig,
       },
       async init({ scaffolder }) {
+        // const accessToken = config.getString('integrations.github.token');
+        const accessToken = "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";
+
         const { createCloudBuildTriggerAction } = await import('./plugins/scaffolder/actions/cloudBuild');
         const { createGithubBranchAction } = await import('./plugins/scaffolder/actions/githubBranch');
         
         scaffolder.addActions(createCloudBuildTriggerAction());
-        scaffolder.addActions(createGithubBranchAction());
+        scaffolder.addActions(createGithubBranchAction(accessToken));
       },
     });
   },

@@ -2,7 +2,7 @@ import { createTemplateAction } from '@backstage/plugin-scaffolder-node';
 import { z } from 'zod';
 import { JsonValue } from '@backstage/types';
 
-export const createGithubBranchAction = () => {
+export const createGithubBranchAction = (accessToken: string) => {
   return createTemplateAction({
     id: 'custom:github:branch:create',
     schema: {
@@ -14,9 +14,7 @@ export const createGithubBranchAction = () => {
       }),
     },
     async handler(ctx) {
-      const { repoOwner, repoName, sourceBranch, newBranchName } = ctx.input;
-      const accessToken = process.env.GITHUB_TOKEN;
-
+      const { repoOwner, repoName, sourceBranch, newBranchName } = ctx.input; 
       const fetch = (await import('node-fetch')).default;
 
       // Step 1: Get the SHA of the source branch
