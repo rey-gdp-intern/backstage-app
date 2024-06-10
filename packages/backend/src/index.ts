@@ -1,5 +1,23 @@
 import { createBackend } from '@backstage/backend-defaults';
 import { GoogleAuth } from 'google-auth-library';
+import { scaffolderActionsExtensionPoint } from '@backstage/plugin-scaffolder-node/alpha';
+import { createBackendModule } from '@backstage/backend-plugin-api';
+
+const scaffolderModuleCustomExtensions = createBackendModule({
+  pluginId: 'scaffolder',
+  moduleId: 'custom-extensions',
+  register(env) {
+    env.registerInit({
+      deps: {
+        scaffolder: scaffolderActionsExtensionPoint,
+      },
+      async init({ scaffolder }) {
+        const { createCloudBuildTriggerAction } = await import('./plugins/scaffolder/actions/cloudBuild');
+        scaffolder.addActions(createCloudBuildTriggerAction());
+      },
+    });
+  },
+});
 
 async function getAccessToken() {
   const keyFile = 'secrets/gcp_sa.json'; // Hardcoded path to your service account key file
@@ -41,6 +59,9 @@ async function refreshAccessToken() {
 }
 
 async function startBackend() {
+  // Initially refresh the token
+  await refreshAccessToken();
+  
   const backend = createBackend();
 
   backend.add(import('@backstage/plugin-app-backend/alpha'));
@@ -73,8 +94,8 @@ async function startBackend() {
   // http request actions plugin
   backend.add(import('@roadiehq/scaffolder-backend-module-http-request/new-backend'));
 
-  // Initially refresh the token
-  await refreshAccessToken();
+  // custom plugins
+  backend.add(scaffolderModuleCustomExtensions());
 
   backend.start();
 }
