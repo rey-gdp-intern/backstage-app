@@ -48,13 +48,13 @@ RUN mkdir packages/backend/dist/skeleton packages/backend/dist/bundle \
     && tar xzf packages/backend/dist/bundle.tar.gz -C packages/backend/dist/bundle
 
 # Stage 3 - Build the actual backend image and install production dependencies
-FROM node:18-bookworm-slim
+FROM node:18-alpine
 
 # Install isolate-vm dependencies, these are needed by the @backstage/plugin-scaffolder-backend.
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     --mount=type=cache,target=/var/lib/apt,sharing=locked \
     apt-get update && \
-    apt-get install -y --no-install-recommends python3 g++ build-essential && \
+    apt-get install -y --no-install-recommends python3 g++ build-essential jq && \
     yarn config set python /usr/bin/python3
 
 # Install sqlite3 dependencies. You can skip this if you don't use sqlite3 in the image,
@@ -65,7 +65,10 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     apt-get install -y --no-install-recommends libsqlite3-dev
 
 # Install gcloud SDK
-RUN curl -sSL https://sdk.cloud.google.com | bash
+RUN curl -sSL https://sdk.cloud.google.com | bash > /dev/null
+
+# Add gcloud to PATH
+ENV PATH $PATH:/root/google-cloud-sdk/bin
 
 # From here on we use the least-privileged `node` user to run the backend.
 USER node
