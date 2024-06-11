@@ -45,6 +45,7 @@
     "@backstage/plugin-search-backend-node": "^1.2.22",
     "@backstage/plugin-techdocs-backend": "^1.10.5",
     "@backstage/types": "^1.1.1",
+    "@google-cloud/cloudbuild": "^4.5.0",
     "@roadiehq/scaffolder-backend-module-http-request": "^4.3.2",
     "app": "link:../app",
     "better-sqlite3": "^9.0.0",

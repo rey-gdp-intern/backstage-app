@@ -64,6 +64,9 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     apt-get update && \
     apt-get install -y --no-install-recommends libsqlite3-dev
 
+# Install gcloud SDK
+RUN curl -sSL https://sdk.cloud.google.com | bash
+
 # From here on we use the least-privileged `node` user to run the backend.
 USER node
 

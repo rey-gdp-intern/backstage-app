@@ -4596,6 +4596,13 @@
     "@gitbeaker/core" "^39.34.3"
     "@gitbeaker/requester-utils" "^39.34.3"
 
+"@google-cloud/cloudbuild@^4.5.0":
+  version "4.5.0"
+  resolved "https://registry.yarnpkg.com/@google-cloud/cloudbuild/-/cloudbuild-4.5.0.tgz#d873e712bb9b44d5ce605541149b8f10938fb39b"
+  integrity sha512-6zd7NS/cR6Duk15tMwEQ1yDrhO5grtVXRBMgiRtUkKReMQpSpwQVEFKLAt8b8YuKX64Bj1yVC+vKRhN3Hb84hw==
+  dependencies:
+    google-gax "^4.0.3"
+
 "@google-cloud/firestore@^7.0.0":
   version "7.7.0"
   resolved "https://registry.yarnpkg.com/@google-cloud/firestore/-/firestore-7.7.0.tgz#f4407ccda10a76e1646a73087db612ce024eff19"
@@ -14599,6 +14606,24 @@ google-auth-library@^9.0.0, google-auth-library@^9.10.0, google-auth-library@^9.
     gtoken "^7.0.0"
     jws "^4.0.0"
 
+google-gax@^4.0.3:
+  version "4.3.6"
+  resolved "https://registry.yarnpkg.com/google-gax/-/google-gax-4.3.6.tgz#aed8cb1ffc8072615c7ec0cf557ade7343136413"
+  integrity sha512-z3MR+pE6WqU+tnKtkJl4c723EYY7Il4fcSNgEbehzUJpcNWkca9AyoC2pdBWmEa0cda21VRpUBb4s6VSATiUKg==
+  dependencies:
+    "@grpc/grpc-js" "~1.10.3"
+    "@grpc/proto-loader" "^0.7.13"
+    "@types/long" "^4.0.0"
+    abort-controller "^3.0.0"
+    duplexify "^4.0.0"
+    google-auth-library "^9.3.0"
+    node-fetch "^2.6.1"
+    object-hash "^3.0.0"
+    proto3-json-serializer "^2.0.0"
+    protobufjs "7.3.0"
+    retry-request "^7.0.0"
+    uuid "^9.0.1"
+
 google-gax@^4.3.3:
   version "4.3.3"
   resolved "https://registry.yarnpkg.com/google-gax/-/google-gax-4.3.3.tgz#7d3ea14e9675c751862b9d008467a87275c4ee47"
@@ -20404,7 +20429,7 @@ protobufjs@7.2.6:
     "@types/node" ">=13.7.0"
     long "^5.0.0"
 
-protobufjs@^7.2.5, protobufjs@^7.2.6:
+protobufjs@7.3.0, protobufjs@^7.2.5, protobufjs@^7.2.6:
   version "7.3.0"
   resolved "https://registry.yarnpkg.com/protobufjs/-/protobufjs-7.3.0.tgz#a32ec0422c039798c41a0700306a6e305b9cb32c"
   integrity sha512-YWD03n3shzV9ImZRX3ccbjqLxj7NokGN0V/ESiBV5xWqrommYHYiihuIyavq03pWSGqlyvYUFmfoMKd+1rPA/g==

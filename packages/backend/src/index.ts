@@ -17,10 +17,10 @@ const scaffolderModuleCustomExtensions = createBackendModule({
         // const accessToken = config.getString('integrations.github.token');
         const accessToken = "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";
 
-        const { createCloudBuildTriggerAction } = await import('./plugins/scaffolder/actions/cloudBuild');
+        const { createTriggerActions } = await import('./plugins/scaffolder/actions/cloudBuild');
         const { createGithubBranchAction } = await import('./plugins/scaffolder/actions/githubBranch');
         
-        scaffolder.addActions(createCloudBuildTriggerAction());
+        scaffolder.addActions(createTriggerActions());
         scaffolder.addActions(createGithubBranchAction(accessToken));
       },
     });
