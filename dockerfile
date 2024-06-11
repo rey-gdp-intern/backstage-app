@@ -54,7 +54,7 @@ FROM node:18-bookworm-slim
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     --mount=type=cache,target=/var/lib/apt,sharing=locked \
     apt-get update && \
-    apt-get install -y --no-install-recommends python3 g++ build-essential jq curl && \
+    apt-get install -y --no-install-recommends python3 g++ build-essential jq curl ca-certificates && \
     yarn config set python /usr/bin/python3
 
 # Install sqlite3 dependencies. You can skip this if you don't use sqlite3 in the image,
