@@ -94,7 +94,7 @@ COPY --chown=node:node app-config.yaml ./
 COPY --chown=node:node packages/backend/secrets/gcp_sa.json /app/secrets/gcp_sa.json
 
 # Copy the script to the appropriate directory
-COPY --chown=node:node src/scripts/createTrigger.sh /app/src/scripts/createTrigger.sh
+COPY --chown=node:node packages/backend/src/scripts/createTrigger.sh /app/src/scripts/createTrigger.sh
 
 # This switches many Node.js dependencies to production mode.
 ENV NODE_ENV production
