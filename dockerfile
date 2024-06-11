@@ -91,10 +91,10 @@ COPY --chown=node:node app-config.production.yaml ./
 COPY --chown=node:node app-config.yaml ./
 
 # Copy the service account key to the secrets directory
-COPY --chown=node:node packages/backend/secrets/gcp_sa.json /app/secrets/gcp_sa.json
+COPY --chown=node:node packages/backend/secrets /app/secrets
 
 # Copy the script to the appropriate directory
-COPY --chown=node:node packages/backend/src/scripts/createTrigger.sh /app/src/scripts/createTrigger.sh
+COPY --chown=node:node packages/backend/src/scripts /app/src/scripts
 
 # This switches many Node.js dependencies to production mode.
 ENV NODE_ENV production
