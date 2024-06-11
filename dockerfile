@@ -64,11 +64,12 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     apt-get update && \
     apt-get install -y --no-install-recommends libsqlite3-dev
 
-# Install gcloud SDK
-RUN curl -sSL https://sdk.cloud.google.com | bash > /dev/null
+# Install gcloud SDK in a user directory
+RUN mkdir -p /home/node/google-cloud-sdk && \
+    curl -sSL https://sdk.cloud.google.com | bash -s -- --install-dir=/home/node/google-cloud-sdk --disable-prompts
 
 # Add gcloud to PATH
-ENV PATH $PATH:/root/google-cloud-sdk/bin
+ENV PATH $PATH:/home/node/google-cloud-sdk/bin
 
 # From here on we use the least-privileged `node` user to run the backend.
 USER node
@@ -93,10 +94,8 @@ COPY --from=build --chown=node:node /app/packages/backend/dist/bundle/ ./
 COPY --chown=node:node app-config.production.yaml ./
 COPY --chown=node:node app-config.yaml ./
 
-# Copy the service account key to the secrets directory
+# Copy the secrets and scripts directories to the image
 COPY --chown=node:node packages/backend/secrets /app/secrets
-
-# Copy the script to the appropriate directory
 COPY --chown=node:node packages/backend/src/scripts /app/src/scripts
 
 # This switches many Node.js dependencies to production mode.
