@@ -48,21 +48,15 @@ RUN mkdir packages/backend/dist/skeleton packages/backend/dist/bundle \
     && tar xzf packages/backend/dist/bundle.tar.gz -C packages/backend/dist/bundle
 
 # Stage 3 - Build the actual backend image and install production dependencies
-FROM node:18-bookworm-slim
+FROM node:18-alpine
 
 # Install isolate-vm dependencies, these are needed by the @backstage/plugin-scaffolder-backend.
-RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
-    --mount=type=cache,target=/var/lib/apt,sharing=locked \
-    apt-get update && \
-    apt-get install -y --no-install-recommends python3 g++ build-essential jq curl ca-certificates && \
+RUN apk add --no-cache python3 g++ make jq curl ca-certificates && \
     yarn config set python /usr/bin/python3
 
 # Install sqlite3 dependencies. You can skip this if you don't use sqlite3 in the image,
 # in which case you should also move better-sqlite3 to "devDependencies" in package.json.
-RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
-    --mount=type=cache,target=/var/lib/apt,sharing=locked \
-    apt-get update && \
-    apt-get install -y --no-install-recommends libsqlite3-dev
+RUN apk add --no-cache sqlite-dev
 
 # Install gcloud SDK in a user directory
 RUN mkdir -p /home/node/google-cloud-sdk && \
@@ -70,8 +64,6 @@ RUN mkdir -p /home/node/google-cloud-sdk && \
 
 # Add gcloud to PATH
 ENV PATH $PATH:/home/node/google-cloud-sdk/bin
-RUN echo 'export PATH=$PATH:/home/node/google-cloud-sdk/google-cloud-sdk/bin' >> /home/node/.bashrc && \
-    echo '. /home/node/google-cloud-sdk/google-cloud-sdk/path.bash.inc' >> /home/node/.bashrc
 
 # From here on we use the least-privileged `node` user to run the backend.
 USER node
@@ -82,6 +74,9 @@ USER node
 # If this occurs, then ensure BuildKit is enabled (`DOCKER_BUILDKIT=1`)
 # so the app dir is correctly created as `node`.
 WORKDIR /app
+
+# Test gcloud auth
+RUN gcloud auth activate-service-account --key-file='./secrets/gcp_sa.json'
 
 # Copy the install dependencies from the build stage and context
 COPY --from=build --chown=node:node /app/yarn.lock /app/package.json /app/packages/backend/dist/skeleton/ ./
@@ -99,9 +94,6 @@ COPY --chown=node:node app-config.yaml ./
 # Copy the secrets and scripts directories to the image
 COPY --chown=node:node packages/backend/secrets /app/secrets
 COPY --chown=node:node packages/backend/src/scripts /app/src/scripts
-
-# Test gcloud auth
-RUN gcloud auth activate-service-account --key-file='./secrets/gcp_sa.json'
 
 # This switches many Node.js dependencies to production mode.
 ENV NODE_ENV production
