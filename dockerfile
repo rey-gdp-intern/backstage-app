@@ -92,8 +92,8 @@ COPY --chown=node:node app-config.yaml ./
 COPY --chown=node:node packages/backend/secrets /app/secrets
 COPY --chown=node:node packages/backend/src/scripts /app/src/scripts
 
-# # Test gcloud auth
-# RUN gcloud auth activate-service-account --key-file='./secrets/gcp_sa.json'
+# Test gcloud auth
+RUN gcloud auth activate-service-account --key-file='./secrets/gcp_sa.json'
 
 # This switches many Node.js dependencies to production mode.
 ENV NODE_ENV production
