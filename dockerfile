@@ -70,6 +70,9 @@ RUN mkdir -p /home/node/google-cloud-sdk && \
 
 # Add gcloud to PATH
 ENV PATH $PATH:/home/node/google-cloud-sdk/bin
+RUN echo 'export PATH=$PATH:/home/node/google-cloud-sdk/google-cloud-sdk/bin' >> ~/.bashrc && \
+    echo 'source /home/node/google-cloud-sdk/google-cloud-sdk/path.bash.inc' >> ~/.bashrc && \
+    source ~/.bashrc
 
 # From here on we use the least-privileged `node` user to run the backend.
 USER node
