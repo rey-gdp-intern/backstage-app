@@ -10,6 +10,7 @@ region=$4
 authorizerTokenSecretVersion="projects/$projectId/secrets/github-pat/versions/latest"
 personalAccessToken="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"
 serviceAccountKeyPath="./secrets/gcp_sa.json"
+defaultBranch="master"
 
 # Authenticate with GCP using service account
 gcloud auth activate-service-account --key-file="$serviceAccountKeyPath"
@@ -61,6 +62,28 @@ gcloud builds triggers create github \
   --name="$repoName-push" \
   --description="Build trigger for $repoName repository" \
   --repository="projects/$projectId/locations/$region/connections/$repoOwner/repositories/$repoName" \
-  --branch-pattern=".*" \
+  --branch-pattern="$defaultBranch|staging|develop|develop_.*" \
   --build-config="cloudbuild.yaml" \
   --region="$region"
+
+gcloud builds triggers create github \
+  --project="intern-infra" \
+  --name="$repoName-push-develop" \
+  --description="Build trigger for multiple branches" \
+  --repository="projects/intern-infra/locations/asia-east1/connections/rey-gdp-intern/repositories/test-6" \
+  --branch-pattern="develop_.*" \
+  --build-config="cloudbuild-develop.yaml" \
+  --region="asia-east1"
+
+# Get the trigger ID
+triggerId=$(gcloud builds triggers list --project="$projectId" --region="$region" --filter="name:$repoName-push" --format="value(id)")
+
+if [ -z "$triggerId" ]; then
+  echo "Failed to retrieve the trigger ID."
+  exit 1
+else
+  echo "Trigger ID: $triggerId"
+fi
+
+# Trigger the build
+gcloud builds triggers run "$triggerId" --branch="$defaultBranch" --project="$projectId" --region="$region"
