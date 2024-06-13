@@ -4,7 +4,7 @@ metadata:
   name: backstage
   description: Backstage application.
   annotations:
-    google.com/cloudbuild-project-slug: 	antrein-ta
+    google.com/cloudbuild-project-slug: antrein-ta
 spec:
   type: website
   lifecycle: development

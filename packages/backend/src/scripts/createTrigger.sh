@@ -72,15 +72,6 @@ gcloud builds triggers create github \
   --build-config="cloudbuild.yaml" \
   --region="$region"
 
-gcloud builds triggers create github \
-  --project="intern-infra" \
-  --name="$repoName-push-develop" \
-  --description="Build trigger for multiple branches" \
-  --repository="projects/intern-infra/locations/asia-east1/connections/rey-gdp-intern/repositories/test-6" \
-  --branch-pattern="develop_.*" \
-  --build-config="cloudbuild-develop.yaml" \
-  --region="asia-east1"
-
 # Get the trigger ID
 triggerId=$(gcloud builds triggers list --project="$projectId" --region="$region" --filter="name:$repoName-push" --format="value(id)")
 
