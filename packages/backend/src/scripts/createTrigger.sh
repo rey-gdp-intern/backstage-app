@@ -9,8 +9,14 @@ region=$4
 # VARIABLE JUST TO STORE
 authorizerTokenSecretVersion="projects/$projectId/secrets/github-pat/versions/latest"
 personalAccessToken="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"
-serviceAccountKeyPath="./secrets/gcp_sa.json"
 defaultBranch="master"
+
+# Set service account key path based on project ID
+if [ "$projectId" == "intern-infra" ]; then
+  serviceAccountKeyPath="./secrets/gcp_sa.json"
+else
+  serviceAccountKeyPath="./secrets/gcp_sa_test.json"
+fi
 
 # Authenticate with GCP using service account
 gcloud auth activate-service-account --key-file="$serviceAccountKeyPath"
