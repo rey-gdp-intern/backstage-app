@@ -10,11 +10,11 @@ export const createGithubBranchAction = (accessToken: string) => {
         repoOwner: z.string().describe('The owner of the repository'),
         repoName: z.string().describe('The name of the repository'),
         sourceBranch: z.string().describe('The source branch to branch from'),
-        newBranchName: z.string().describe('The name of the new branch'),
+        newBranch: z.string().describe('The name of the new branch'),
       }),
     },
     async handler(ctx) {
-      const { repoOwner, repoName, sourceBranch, newBranchName } = ctx.input; 
+      const { repoOwner, repoName, sourceBranch, newBranch } = ctx.input; 
       const fetch = (await import('node-fetch')).default;
 
       // Step 1: Get the SHA of the source branch
@@ -47,7 +47,7 @@ export const createGithubBranchAction = (accessToken: string) => {
           'X-GitHub-Api-Version': '2022-11-28',
         },
         body: JSON.stringify({
-          ref: `refs/heads/${newBranchName}`,
+          ref: `refs/heads/${newBranch}`,
           sha: sourceBranchSha,
         }),
       });

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Default project ID, can be overridden by command line argument
-PROJECT_ID="antrein-ta"
+PROJECT_ID="intern-infra"
 
 # Function to set variables for the project
 set_project_variables() {
