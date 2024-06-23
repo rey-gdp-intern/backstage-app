@@ -18,10 +18,14 @@ const scaffolderModuleCustomExtensions = createBackendModule({
         const accessToken = "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";
 
         const { createTriggerActions } = await import('./plugins/scaffolder/actions/cloudBuild');
-        const { createGithubBranchAction } = await import('./plugins/scaffolder/actions/githubBranch');
+        const { createGithubBranchAction } = await import('./plugins/scaffolder/actions/githubBranchCreate');
+        const { deleteGithubBranchAction } = await import('./plugins/scaffolder/actions/githubBranchDelete');
+        const { createGithubPullRequestMergeAction } = await import('./plugins/scaffolder/actions/githubPullRequestMerge');
         
         scaffolder.addActions(createTriggerActions());
         scaffolder.addActions(createGithubBranchAction(accessToken));
+        scaffolder.addActions(deleteGithubBranchAction(accessToken));
+        scaffolder.addActions(createGithubPullRequestMergeAction(accessToken));
       },
     });
   },
