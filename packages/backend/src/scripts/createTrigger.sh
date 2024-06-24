@@ -8,7 +8,7 @@ region=$4
 
 # VARIABLE JUST TO STORE
 authorizerTokenSecretVersion="projects/$projectId/secrets/github-pat/versions/latest"
-personalAccessToken="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"
+personalAccessToken="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"
 defaultBranch="master"
 
 # Set service account key path based on project ID
@@ -68,7 +68,7 @@ gcloud builds triggers create github \
   --name="$repoName-push" \
   --description="Build trigger for $repoName repository" \
   --repository="projects/$projectId/locations/$region/connections/$repoOwner/repositories/$repoName" \
-  --branch-pattern="$defaultBranch|staging|develop|develop_.*" \
+  --branch-pattern="$defaultBranch|staging|staging_.*|develop|develop_.*" \
   --build-config="cloudbuild.yaml" \
   --region="$region"
 
