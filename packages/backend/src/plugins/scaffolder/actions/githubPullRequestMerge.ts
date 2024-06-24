@@ -1,8 +1,10 @@
 // packages/backend/src/plugins/scaffolder/actions/githubPullRequestMerge.ts
 import { createTemplateAction } from '@backstage/plugin-scaffolder-node';
-import { spawn } from 'child_process';
-import { resolve } from 'path';
 import { z } from 'zod';
+import { exec } from 'child_process';
+import { promisify } from 'util';
+
+const execAsync = promisify(exec);
 
 export const createGithubPullRequestMergeAction = (accessToken: string) => {
   return createTemplateAction({
@@ -16,32 +18,20 @@ export const createGithubPullRequestMergeAction = (accessToken: string) => {
     },
     async handler(ctx) {
       const { repoOwner, repoName, sourceBranch } = ctx.input;
+      const scriptPath = './src/scripts/githubMerge.sh'; // Ensure the path is correct
 
-
-      const scriptPath = resolve(__dirname, './src/scripts/createTrigger.sh');
-      const args = [
-        repoOwner,
-        repoName,
-        sourceBranch,
-        accessToken,
-      ];
-
-      const child = spawn(scriptPath, args, {
-        stdio: 'inherit',
-        shell: true,
-      });
-
-      child.on('close', (code) => {
-        if (code !== 0) {
-          ctx.logger.error(`githubMerge.sh script exited with code ${code}`);
-          throw new Error(`githubMerge.sh script failed with code ${code}`);
+      try {
+        const { stdout, stderr } = await execAsync(`bash ${scriptPath} ${repoOwner} ${repoName} ${sourceBranch} ${accessToken}`);
+        
+        if (stderr) {
+          ctx.logger.error(`Error: ${stderr}`);
         }
-      });
-
-      child.on('error', (err) => {
-        ctx.logger.error(`Failed to start child process: ${err}`);
-        throw new Error(`Failed to start child process: ${err}`);
-      });
+        
+        ctx.logger.info(`Output: ${stdout}`);
+      } catch (error) {
+        ctx.logger.error(`Error executing script: ${(error as Error).message}`);
+        throw new Error(`Failed to execute script: ${(error as Error).message}`);
+      }
     },
   });
 };
