@@ -65,7 +65,7 @@ RUN mkdir -p /home/node/google-cloud-sdk && \
 # Add gcloud to PATH
 ENV PATH=$PATH:/home/node/google-cloud-sdk/bin:/home/node/google-cloud-sdk/google-cloud-sdk/bin
 
-# From here on we use the least-privileged `node` user to run the backend.
+# From here on we use the least-privileged `node` user to run the backend
 USER node
 
 # This should create the app dir as `node`.

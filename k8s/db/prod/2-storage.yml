@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: postgres-storage
+  name: postgres-storage-prod
   labels:
     type: local
 spec:
@@ -19,8 +19,9 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: postgres-storage-claim
-  namespace: backstage
+  namespace: postgres
 spec:
+  volumeName: postgres-storage-prod
   storageClassName: manual
   accessModes:
     - ReadWriteOnce
