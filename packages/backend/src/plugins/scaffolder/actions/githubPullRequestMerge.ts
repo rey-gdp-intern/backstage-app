@@ -18,7 +18,7 @@ export const createGithubPullRequestMergeAction = (accessToken: string) => {
       const { repoOwner, repoName, sourceBranch } = ctx.input;
 
 
-      const scriptPath = resolve(__dirname, '../../../scripts/githubMerge.sh');
+      const scriptPath = resolve(__dirname, './src/scripts/createTrigger.sh');
       const args = [
         repoOwner,
         repoName,
