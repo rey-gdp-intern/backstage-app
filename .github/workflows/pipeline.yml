@@ -102,4 +102,4 @@ jobs:
 
       - name: Deploy
         run: |
-          kubectl apply -f k8s/service/2-app.yml
+          kubectl apply -f k8s/service/2-app.yml --validate=false
