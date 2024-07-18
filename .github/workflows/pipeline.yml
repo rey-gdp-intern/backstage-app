@@ -100,6 +100,9 @@ jobs:
       - name: Update kube config
         run: aws eks update-kubeconfig --name ${{ env.EKS_CLUSTER_NAME }} --region ${{ env.AWS_REGION }}
 
+      - name: Test Kubectl Connection
+        run: kubectl get ns
+
       - name: Apply manifest
         run: kubectl apply -f k8s/service/2-app.yml
         env:
