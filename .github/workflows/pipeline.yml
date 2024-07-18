@@ -102,11 +102,12 @@ jobs:
 
       - name: Test Kubectl Connection
         run: |
-          echo 'KUBE_CONFIG_DATA<<EOF' >> $GITHUB_ENV
-          echo $(cat ./kubeconfig | base64) >> $GITHUB_ENV
-          echo 'EOF' >> $GITHUB_ENV
           kubectl config current-context
           kubectl get ns
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ env.AWS_REGION }}
 
       - name: Apply manifest
         run: kubectl apply -f k8s/service/2-app.yml
