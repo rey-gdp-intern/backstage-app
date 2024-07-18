@@ -70,7 +70,7 @@ jobs:
           docker push $IMAGE_NAME
           echo "IMAGE_NAME=$IMAGE_NAME" >> $GITHUB_OUTPUT
 
-  deploy-to-server-gcp:
+  deploy-to-server-eks:
     needs: [setup-environment, dockerize-and-push]
     runs-on: ubuntu-latest
     steps:
@@ -87,16 +87,15 @@ jobs:
           sed -i "s|<PORT>|${{ env.PORT }}|g" k8s/service/2-app.yml
           cat k8s/service/2-app.yml
 
-      - id: auth
-        uses: google-github-actions/auth@v2
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
         with:
-          credentials_json: ${{ vars.GCP_SA_KEY }}
+          aws-access-key-id: ${{ vars.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ vars.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{vars.AWS_REGION}}
 
-      - name: Connect to cluster
-        uses: google-github-actions/get-gke-credentials@v2
-        with:
-          cluster_name: ${{ vars.GCP_CLUSTER_NAME }}
-          location: ${{ env.GCP_ZONE }}
+      - name: Update kube config
+        run: aws eks update-kubeconfig --name $EKS_CLUSTER_NAME --region $AWS_REGION
 
       - name: Deploy
         run: |
