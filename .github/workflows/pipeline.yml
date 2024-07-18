@@ -18,6 +18,8 @@ env:
   GCP_REGION: asia-southeast2
   GCP_ZONE: asia-southeast2-a
 
+  AWS_REGION: us-east-1
+
 jobs:
   setup-environment:
     if: github.event.pull_request.merged == false
@@ -92,7 +94,7 @@ jobs:
         with:
           aws-access-key-id: ${{ vars.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ vars.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{vars.AWS_REGION}}
+          aws-region: ${{ env.AWS_REGION }}
 
       - name: Update kube config
         run: aws eks update-kubeconfig --name $EKS_CLUSTER_NAME --region $AWS_REGION
