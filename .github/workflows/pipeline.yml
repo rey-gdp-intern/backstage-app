@@ -100,9 +100,9 @@ jobs:
       - name: Update kube config
         run: aws eks update-kubeconfig --name ${{ env.EKS_CLUSTER_NAME }} --region ${{ env.AWS_REGION }}
 
-      - name: Check kubeconfig
-        run: cat ~/.kube/config
-
-      - name: Deploy
-        run: |
-          kubectl apply -f k8s/service/2-app.yml
+      - name: Apply manifest
+        run: kubectl apply -f k8s/service/2-app.yml
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ env.AWS_REGION }}
