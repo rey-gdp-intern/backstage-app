@@ -19,6 +19,7 @@ env:
   GCP_ZONE: asia-southeast2-a
 
   AWS_REGION: us-east-1
+  EKS_CLUSTER_NAME: intern-sandbox
 
 jobs:
   setup-environment:
@@ -97,7 +98,7 @@ jobs:
           aws-region: ${{ env.AWS_REGION }}
 
       - name: Update kube config
-        run: aws eks update-kubeconfig --name $EKS_CLUSTER_NAME --region $AWS_REGION
+        run: aws eks update-kubeconfig --name ${{ env.EKS_CLUSTER_NAME }} --region ${{ env.AWS_REGION }}
 
       - name: Deploy
         run: |
