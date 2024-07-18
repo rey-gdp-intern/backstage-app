@@ -101,7 +101,12 @@ jobs:
         run: aws eks update-kubeconfig --name ${{ env.EKS_CLUSTER_NAME }} --region ${{ env.AWS_REGION }}
 
       - name: Test Kubectl Connection
-        run: kubectl get ns
+        run: |
+          echo 'KUBE_CONFIG_DATA<<EOF' >> $GITHUB_ENV
+          echo $(cat ./kubeconfig | base64) >> $GITHUB_ENV
+          echo 'EOF' >> $GITHUB_ENV
+          kubectl config current-context
+          kubectl get ns
 
       - name: Apply manifest
         run: kubectl apply -f k8s/service/2-app.yml
