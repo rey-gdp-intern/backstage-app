@@ -105,7 +105,7 @@ jobs:
           echo "region = us-east-1" >> ~/.aws/config
           echo "output = json" >> ~/.aws/config
           echo "[profile gl-exploration]" >> ~/.aws/config
-          echo "role_arn = ${{ secrets.AWS_ROLE_ARN }}" >> ~/.aws/config
+          echo "role_arn = ${{ env.AWS_ROLE_ARN }}" >> ~/.aws/config
           echo "source_profile = default" >> ~/.aws/config
           echo "skip_region_validation = true" >> ~/.aws/config
           echo "[default]" > ~/.aws/credentials
