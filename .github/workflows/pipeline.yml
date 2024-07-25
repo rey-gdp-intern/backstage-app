@@ -20,7 +20,7 @@ env:
 
   AWS_REGION: us-east-1
   AWS_ROLE_ARN: arn:aws:iam::302546992452:user/glair-exploration-rey-intern
-  EKS_CLUSTER_NAME: intern-sandbox
+  EKS_CLUSTER_NAME: sandbox-intern
 
 jobs:
   setup-environment:
