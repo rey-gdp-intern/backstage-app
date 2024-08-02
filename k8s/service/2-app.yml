@@ -46,7 +46,6 @@ metadata:
   name: backstage
   namespace: backstage
 spec:
-  type: LoadBalancer
   selector:
     app: backstage
     commit-hash: "<VERSION>"
