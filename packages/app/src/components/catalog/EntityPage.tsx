@@ -54,7 +54,7 @@ import {
 import { TechDocsAddons } from '@backstage/plugin-techdocs-react';
 import { ReportIssue } from '@backstage/plugin-techdocs-module-addons-contrib';
 
-// Cloud Build COmponent
+// Cloud Build Component
 import { EntityCloudbuildContent, isCloudbuildAvailable } from '@backstage-community/plugin-cloudbuild';
 
 // Github Actions

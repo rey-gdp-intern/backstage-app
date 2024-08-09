@@ -93,7 +93,7 @@ COPY --chown=node:node packages/backend/secrets /app/secrets
 COPY --chown=node:node packages/backend/src/scripts /app/src/scripts
 
 
-# This switches many Node.js dependencies to production mode.
+# This switches many Node.js dependencies to production mode
 ENV NODE_ENV production
 
 CMD ["node", "packages/backend", "--config", "app-config.yaml", "--config", "app-config.production.yaml"]
