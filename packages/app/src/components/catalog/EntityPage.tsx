@@ -66,7 +66,6 @@ import {
 // Plugin Github Pull Request
 import {
   EntityGithubPullRequestsContent,
-  isGithubPullRequestsAvailable,
 } from '@roadiehq/backstage-plugin-github-pull-requests';
 
 const techdocsContent = (
