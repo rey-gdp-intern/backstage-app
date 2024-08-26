@@ -58,6 +58,9 @@ RUN apk add --no-cache python3 g++ make jq curl ca-certificates bash && \
 # in which case you should also move better-sqlite3 to "devDependencies" in package.json.
 RUN apk add --no-cache sqlite-dev
 
+# Install Docker to enable Docker-in-Docker functionality
+RUN apk add --no-cache docker
+
 # Install gcloud SDK in a user directory
 RUN mkdir -p /home/node/google-cloud-sdk && \
     curl -sSL https://sdk.cloud.google.com | bash -s -- --install-dir=/home/node/google-cloud-sdk --disable-prompts
@@ -92,8 +95,8 @@ COPY --chown=node:node app-config.yaml ./
 COPY --chown=node:node packages/backend/secrets /app/secrets
 COPY --chown=node:node packages/backend/src/scripts /app/src/scripts
 
-
 # This switches many Node.js dependencies to production mode
 ENV NODE_ENV production
 
+# Ensure Docker can be used in the container by mounting the Docker socket
 CMD ["node", "packages/backend", "--config", "app-config.yaml", "--config", "app-config.production.yaml"]
