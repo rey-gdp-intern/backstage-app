@@ -24,11 +24,15 @@ Before starting, ensure the following are installed and configured on your syste
 
 To create a new Backstage app, use the following command:
 
+```bash
 npx @backstage/create-app@latest
+```
 
 This will create a new directory with the Backstage app. Navigate to your app's directory:
 
+```bash
 cd my-backstage-app
+```
 
 ### 2. Run the Backstage App in Standalone Mode
 
