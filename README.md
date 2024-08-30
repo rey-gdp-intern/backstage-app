@@ -38,8 +38,9 @@ cd my-backstage-app
 
 To start the app in standalone mode (suitable for development), use:
 
+```bash
 yarn dev
-
+```
 This will start both the frontend and backend in development mode. Open your browser and navigate to http://localhost:3000 to view your Backstage instance.
 
 ## High Availability (HA) Mode Deployment
