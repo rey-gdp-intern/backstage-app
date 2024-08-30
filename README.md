@@ -12,6 +12,8 @@ Before starting, ensure the following are installed and configured on your syste
 
 - **Operating System**: Unix-based (Linux, macOS, or WSL on Windows)
 - **Node.js**: Active LTS Release (Install using [nvm](https://github.com/nvm-sh/nvm))
+- **npm**: Installed with Node.js for managing packages
+- **npx**: Installed with npm for running Node.js packages without globally installing them
 - **Yarn**: Yarn Classic
 - **Docker**: Installed and running
 - **Git**: Installed and configured
