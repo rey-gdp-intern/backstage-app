@@ -59,7 +59,7 @@ RUN apk add --no-cache python3 g++ make jq curl ca-certificates bash && \
 RUN apk add --no-cache sqlite-dev
 
 # Install Docker to enable Docker-in-Docker functionality
-RUN apk add --no-cache docker
+# RUN apk add --no-cache docker
 
 # Install gcloud SDK in a user directory
 RUN mkdir -p /home/node/google-cloud-sdk && \

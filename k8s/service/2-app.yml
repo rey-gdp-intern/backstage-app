@@ -26,14 +26,14 @@ spec:
                 name: postgres-secrets
             - secretRef:
                 name: backstage-secrets
-          volumeMounts:
-            - name: docker-socket
-              mountPath: /var/run/docker.sock
-      volumes:
-        - name: docker-socket
-          hostPath:
-            path: /var/run/docker.sock
-            type: Socket
+      #     volumeMounts:
+      #       - name: docker-socket
+      #         mountPath: /var/run/docker.sock
+      # volumes:
+      #   - name: docker-socket
+      #     hostPath:
+      #       path: /var/run/docker.sock
+      #       type: Socket
 ---
 apiVersion: v1
 kind: Service
