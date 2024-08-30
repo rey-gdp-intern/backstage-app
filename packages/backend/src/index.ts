@@ -108,7 +108,7 @@ async function startBackend() {
   backend.add(import('@roadiehq/scaffolder-backend-module-http-request/new-backend'));
 
   // kubernetes plugin
-  // backend.add(import('@backstage/plugin-kubernetes-backend/alpha'));
+  backend.add(import('@backstage/plugin-kubernetes-backend/alpha'));
 
   // custom plugins
   backend.add(scaffolderModuleCustomExtensions());

@@ -68,6 +68,9 @@ import {
   EntityGithubPullRequestsContent,
 } from '@roadiehq/backstage-plugin-github-pull-requests';
 
+// Kubernetes plugin
+import { EntityKubernetesContent } from '@backstage/plugin-kubernetes';
+
 const techdocsContent = (
   <EntityTechdocsContent>
     <TechDocsAddons>
@@ -174,9 +177,9 @@ const serviceEntityPage = (
       <EntityGithubPullRequestsContent />
     </EntityLayout.Route>
   
-    {/* <EntityLayout.Route path="/kubernetes" title="Kubernetes">
+    <EntityLayout.Route path="/kubernetes" title="Kubernetes">
       <EntityKubernetesContent refreshIntervalMs={10000} />
-    </EntityLayout.Route> */}
+    </EntityLayout.Route>
 
     <EntityLayout.Route path="/api" title="API">
       <Grid container spacing={3} alignItems="stretch">
